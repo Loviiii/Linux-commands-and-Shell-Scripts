@@ -31,13 +31,18 @@ backupFileName="backup-$currentTS.tar.gz"
 origAbsPath=$(pwd)
 
 # [TASK 6]
+cd "$targetDirectory"
+targetAbsPath=$(pwd)
+
+# go back
+cd "$origAbsPath"
+
+# [TASK 7]
 cd "$destinationDirectory"
 destAbsPath=$(pwd)
 
-# [TASK 7]
-cd "$origAbsPath"
-cd "$targetDirectory"
-targetAbsPath=$(pwd)
+# go to target again
+cd "$targetAbsPath"
 
 # [TASK 8]
 yesterdayTS=$(($(date +%s) - 86400))
@@ -48,7 +53,7 @@ declare -a toBackup
 for file in *
 do
   # [TASK 10]
-  if [ -f "$file" ] && [ $(date -r "$file" +%s) -gt $yesterdayTS ]
+  if [ -f "$file" ]
   then
     # [TASK 11]
     toBackup+=("$file")
@@ -58,9 +63,7 @@ done
 # [TASK 12]
 tar -czvf "$backupFileName" "${toBackup[@]}"
 
-# [TASK 13]
-if [ -f "$backupFileName" ] && [ "$destAbsPath" != "$targetAbsPath" ]; then
-  mv "$backupFileName" "$destAbsPath/"
-fi
+# [TASK 13] (IMPORTANT FIX)
+mv "$backupFileName" "$destAbsPath/backup-$currentTS.tar.gz"
 
 # Congratulations! You completed the final project for this course!

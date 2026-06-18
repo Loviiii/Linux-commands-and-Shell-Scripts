@@ -37,9 +37,10 @@ destAbsPath=$(pwd)
 # [TASK 7]
 cd "$origAbsPath"
 cd "$targetDirectory"
+targetAbsPath=$(pwd)
 
 # [TASK 8]
-yesterdayTS=$(date -d "1 day ago" +%s)
+yesterdayTS=$(($(date +%s) - 86400))
 
 declare -a toBackup
 
@@ -57,7 +58,9 @@ done
 # [TASK 12]
 tar -czvf "$backupFileName" "${toBackup[@]}"
 
-# [TASK 13]  ✔ MISSING IN YOUR CODE
-mv "$backupFileName" "$destAbsPath/"
+# [TASK 13]
+if [ -f "$backupFileName" ] && [ "$destAbsPath" != "$targetAbsPath" ]; then
+  mv "$backupFileName" "$destAbsPath/"
+fi
 
 # Congratulations! You completed the final project for this course!

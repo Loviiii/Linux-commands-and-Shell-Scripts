@@ -31,9 +31,8 @@ origAbsPath=$(pwd)
 cd "$destinationDirectory"
 destAbsPath=$(pwd)
 
-# Task 7
-cd "$origAbsPath"
-cd "$targetDirectory"
+# Task 7 (IMPORTANT FIX: correct navigation)
+cd "$origAbsPath/$targetDirectory" || exit
 
 # Task 8
 yesterdayTS=$(($currentTS - 24 * 60 * 60))

@@ -44,9 +44,7 @@ declare -a toBackup
 for file in *
 do
   # Task 10
-  fileTS=$(date -r "$file" +%s)
-
-  if [[ $fileTS -ge $yesterdayTS ]]
+  if [[ -f "$file" ]] && [[ $(date -r "$file" +%s) -ge $yesterdayTS ]]
   then
     # Task 11
     toBackup+=("$file")

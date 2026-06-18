@@ -1,57 +1,47 @@
 #!/bin/bash
 
-if [[ $# != 2 ]]
-then
-  echo "backup.sh target_directory_name destination_directory_name"
-  exit
-fi
-
-if [[ ! -d $1 ]] || [[ ! -d $2 ]]
-then
-  echo "Invalid directory path provided"
-  exit
-fi
-
-# Task 1
+# Task 2 & 3: Store command-line arguments in variables
 targetDirectory=$1
 destinationDirectory=$2
 
-# Task 2
-echo $targetDirectory
-echo $destinationDirectory
+# Task 3: Print the variables
+echo "targetDirectory: $targetDirectory"
+echo "destinationDirectory: $destinationDirectory"
 
-# Task 3
+# Task 4: Store the current timestamp (in seconds)
 currentTS=$(date '+%s')
+
+# Task 5: Construct the backup file name
 backupFileName="backup-${currentTS}.tar.gz"
 
-# Task 5
+# Task 6: Store the original absolute path
 origAbsPath=$(pwd)
 
-# Task 6
+# Task 7: Move into destinationDirectory and capture its absolute path
 cd "$destinationDirectory"
 destAbsPath=$(pwd)
 
-# Task 7 (IMPORTANT FIX: correct navigation)
-cd "$origAbsPath/$targetDirectory" || exit
+# Task 8: Return to the original path, then move into targetDirectory
+cd "$origAbsPath"
+cd "$targetDirectory"
 
-# Task 8
+# Task 9: Calculate timestamp for 24 hours before currentTS
 yesterdayTS=$(($currentTS - 24 * 60 * 60))
 
-declare -a toBackup
+# Array to hold files that need to be backed up
+toBackup=()
 
-# Task 9
+# Task 10 & 11: Loop through all files/directories in the current directory
 for file in *
 do
-  # Task 10
-  if [[ -f "$file" ]] && [[ $(date -r "$file" +%s) -ge $yesterdayTS ]]
-  then
-    # Task 11
-    toBackup+=("$file")
-  fi
+    if [[ $(date -r "$file" +%s) -gt $yesterdayTS ]]
+    then
+        toBackup+=("$file")
+    fi
 done
 
-# Task 12
+# Task 12: Create the compressed archive containing the files to back up
 tar -czvf "$backupFileName" "${toBackup[@]}"
 
-# Task 13
+# Task 13: Move the backup archive into the destination directory
 mv "$backupFileName" "$destAbsPath"

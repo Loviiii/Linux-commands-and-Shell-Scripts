@@ -24,9 +24,7 @@ echo "targetDirectory is $targetDirectory"
 echo "destinationDirectory is $destinationDirectory"
 
 # [TASK 3]
-currentTS=$(date +%Y%m%d_%H%M%S)
-
-# [TASK 4]
+currentTS=$(date +%s)
 backupFileName="backup-$currentTS.tar.gz"
 
 # [TASK 5]
@@ -59,7 +57,7 @@ done
 # [TASK 12]
 tar -czvf "$backupFileName" "${toBackup[@]}"
 
-# [TASK 13]
-mv "$backupFileName" "$destAbsPath"
+# [TASK 13]  ✔ MISSING IN YOUR CODE
+mv "$backupFileName" "$destAbsPath/"
 
 # Congratulations! You completed the final project for this course!
